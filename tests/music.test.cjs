@@ -69,7 +69,11 @@ function fixture() {
     }
     now=end;
   }
-  return {player,engine,notes,steps,stops,errors,tasks,advance,jump:ms=>{now+=ms;},readyCalls:()=>readyCalls,silenceCalls:()=>silenceCalls};
+  function flushLate() {
+    const pending = [...tasks.entries()].filter(([,task])=>task.time<=now).sort((a,b)=>a[1].time-b[1].time)[0];
+    if (pending) { tasks.delete(pending[0]); pending[1].fn(); }
+  }
+  return {player,engine,notes,steps,stops,errors,tasks,advance,flushLate,jump:ms=>{now+=ms;},readyCalls:()=>readyCalls,silenceCalls:()=>silenceCalls};
 }
 const playable = () => ({...Core.defaults(),pattern:['piano','bell'],settings:{...Core.defaults().settings,tempo:60}});
 test('play once sounds in order, completes, and clears timers', async () => {
@@ -118,5 +122,12 @@ test('audio failure reports an error without starting a timer', async () => {
   await f.player.start(playable());
   assert.equal(f.errors.length,1);
   assert.equal(f.player.running,false);
+  assert.equal(f.tasks.size,0);
+});
+test('a delayed tab stops instead of catching up with a burst of sounds', async () => {
+  const f=fixture(); await f.player.start({...playable(),mode:'while'});
+  f.jump(5000); f.flushLate();
+  assert.deepEqual(f.notes,['piano']);
+  assert.deepEqual(f.stops,['interrupted']);
   assert.equal(f.tasks.size,0);
 });
