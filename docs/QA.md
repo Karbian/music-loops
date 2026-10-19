@@ -10,7 +10,11 @@ JavaScript syntax is checked with `node --check`. GitHub Actions runs these chec
 
 The current 1.1.0 revision uses picture rows to represent a sequence played once or twice. The code view and open-ended repeat option from the initial prototype have been removed. Saved older projects are normalized into a finite repetition while preserving valid instrument cards.
 
-Revised browser results are recorded after publication.
+The initial studio was reviewed in Chrome at 1470 × 683 and 390 × 844, including keyboard editing, sound playback, Pause / Help / Finished, English labels, and visual-only playback. Those checks predate the picture-row revision.
+
+The selected browser connection failed during the final 1.1.0 review. Automatic approval review rejected opening a different browser because it would switch away from the selected browser after its connection failed. **The new picture-row layout and its live highlighting are not visually verified.** No previous screenshot is presented as proof of this revision.
+
+The revised source passes all 14 behavior tests, JavaScript syntax checks, and static checks for translated labels, element references, valid asset paths, and removal of learner code-notation controls. GitHub Actions and Pages publication completed successfully for the functional 1.1.0 commit.
 
 ## Remaining checks
 

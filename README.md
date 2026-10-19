@@ -4,8 +4,6 @@ A calm music studio for learning **sequences and loops with picture cards**. Cho
 
 **[Open Mi Ritmo](https://karbian.github.io/music-loops/?v=1.1.0)** · [Companion guide](docs/ACCOMPANIMENT.md) · [Accessibility and design](docs/DESIGN.md)
 
-![Mi Ritmo with instrument picture cards and two matching rows showing a repeated sequence.](docs/preview.jpg)
-
 ## Start with pictures
 
 1. Choose the **piano picture** or **bell picture**. Choosing and placing cards is silent.
