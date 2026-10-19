@@ -1,5 +1,15 @@
 # Verification
 
+## Audacity desktop edition
+
+`python -m unittest desktop.tests.test_desktop -v` passes 24 unit/protocol checks. They include exact C-major and A-natural-minor pitches, octave tuning, eight/16-note takes, fade commands, bounded tone amplitude, real silent rests, append-only positioning, ownership refusal, missing-command refusal, cancellation at preparation and Play acknowledgement, invalidation after a timeout, legacy migration, bounded JSON import, and a browser/desktop scale-data comparison.
+
+Five additional Tk checks in `desktop.tests.test_ui` cover picture placement, both complete scale layouts and restoration, cancellation by Help while generation is pending, pictures-only playback and silent return, English settings, and on-screen placement of persistent controls at 960 × 700. They require Tk and a display. The local build environment has Tk but no display; these tests are skipped locally. GitHub Actions runs them with Xvfb and runs the desktop unit tests on Windows, macOS, and Linux.
+
+Audacity itself is not installed in the local build environment. Protocol simulations and Tk checks are not live Audacity validation. **An installed Audacity 3.x session, actual output device/volume, Windows/macOS pipe behavior, manual audio save/export, and auditory comfort remain to be checked on the target computer.** The desktop's live picture border uses estimated time, not Audacity's audio clock. Canvas cards have keyboard bindings and focus borders; full screen-reader accessibility is not established.
+
+Before the activity, a companion should connect in an empty Audacity project, listen to both complete scales once and twice, try Pause while Preparing and during sound, verify Help/Finished and silent return, save/reopen a JSON copy, and save a take from Audacity. Keep one project active throughout; ownership checks are not an atomic lock against another person editing Audacity. A stalled Audacity command can delay Stop; use Audacity's own Stop if the local connection is unresponsive.
+
 ## Automated checks
 
 Run `node --test tests/*.test.cjs`. Tests cover state normalization, sequence order and rests, two-pass loops, level changes, pending audio cancellation, stop cancellation, visual-only playback, focus/suspension safeguards, and delayed tab interruption with a controlled clock.

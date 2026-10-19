@@ -4,6 +4,12 @@ A calm music studio for learning **sequences and loops with picture cards**. Cho
 
 **[Open Mi Ritmo 2.0](https://karbian.github.io/music-loops/?v=2.0.0)** · [Companion guide](docs/ACCOMPANIMENT.md) · [Complete scales](docs/SCALES.md) · [Accessibility and design](docs/DESIGN.md)
 
+## Audacity desktop edition
+
+**[Download and set up the Audacity edition](desktop/README.md)** to use a separate picture-card window with **Audacity 3.x generating and playing the music**. It includes both complete scales, two-space activities, finite visual loops, persistent Pause / Help / Finished cards, Spanish and English, and compatible JSON files. Python with Tkinter and Audacity's `mod-script-pipe` module are required; launchers are provided for Windows, macOS, and Linux. Earlier audio takes remain in Audacity for an adult to save.
+
+The desktop connection has protocol simulations and Tk checks; live audio on an installed Audacity still needs a device check. The browser edition above remains available separately.
+
 ## Two complete scales
 
 In **Acompañante → Material musical**, choose **Do mayor** or **La menor natural**. In English, use **Companion → Music collection → C major / A natural minor**.

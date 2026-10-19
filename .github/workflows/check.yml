@@ -17,3 +17,27 @@ jobs:
       - run: node --check assets/audio.js
       - run: node --check assets/app.js
       - run: node --test tests/*.test.cjs
+  desktop:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: python -m unittest desktop.tests.test_desktop -v
+  desktop-interface:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install a virtual display and system Tk
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install --yes python3-tk xvfb xauth
+      - name: Exercise the picture window with a simulated Audacity
+        run: xvfb-run -a /usr/bin/python3 -m unittest desktop.tests.test_ui -v

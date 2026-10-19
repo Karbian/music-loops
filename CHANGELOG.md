@@ -1,5 +1,14 @@
 # Changes
 
+## Audacity desktop edition of 2.0 — 2026-10-19
+
+- Added a separate Python/Tk picture-card interface that drives an installed Audacity 3.x through local named pipes.
+- Kept both complete scales, stable note pictures, two-space beginnings, one/two-pass picture loops, bilingual controls, and persistent communication cards.
+- Audacity generates low-amplitude tuned tones with fades and appends each take without deleting earlier audio. Only the new take is selected for playback.
+- Added active-track ownership checks, command capability checks, cancellable preparation, bounded replies, and explicit errors if stopping cannot be confirmed.
+- Added platform launchers, adult setup instructions, JSON compatibility with the browser edition, 24 desktop unit checks, and five Tk interface checks.
+- Kept the browser studio and its 25 behavior checks unchanged.
+
 ## 2.0.0 — 2026-10-19
 
 - Added complete C major (C4–C5) and A natural minor (A3–A4) scales, eight notes each including the closing octave.
