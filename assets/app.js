@@ -7,7 +7,7 @@
       skip:'Ir a mi música',adult:'Acompañante',yourStudio:'TU PEQUEÑO ESTUDIO',title:'Tu música, a tu ritmo.',subtitle:'Elige. Crea. Escucha.',
       choose:'Elige un sonido',preview:'Escuchar este sonido',place:'Ponlo en un espacio',undo:'Deshacer',mySequence:'MI SECUENCIA',inOrder:'Primero un sonido. Después, otro.',
       listen:'Escucha tu música',howMany:'¿Cuántas veces?',once:'Una vez',twice:'Dos veces',untilStop:'Hasta parar',play:'Escuchar',stop:'Parar',mute:'Silenciar',unmute:'Activar sonido',softSound:'Sonido suave',silent:'Sin sonido',
-      behindMusic:'DETRÁS DE TU MÚSICA',codeTitle:'Tu secuencia es un programa.',saved:'Se guarda en este dispositivo.',notSaved:'No se pudo guardar aquí. Descarga una copia.',ownPace:'Sin prisa. Puedes cambiar de idea.',
+      behindMusic:'DETRÁS DE TU MÚSICA',codeTitle:'Tu secuencia es un programa.',saved:'Se guarda en este dispositivo.',notSaved:'No se pudo guardar aquí. Descarga una copia.',demo:'Demostración: cambios solo en esta página.',demoNote:'Esta demostración empieza vacía y conserva los cambios solo mientras la página está abierta. Puedes descargar una copia.',ownPace:'Sin prisa. Puedes cambiar de idea.',
       iCanSay:'Puedo decir:',pause:'Pausa',help:'Ayuda',done:'Terminé',myChoice:'MI ELECCIÓN',return:'Volver a mi música',nothingStarts:'La música sigue en silencio.',
       pauseTitle:'Quiero una pausa',pauseCopy:'Puedes descansar. Tu música te espera.',helpTitle:'Necesito ayuda',helpCopy:'Puedes mostrar esta pantalla a quien te acompaña.',doneTitle:'Terminé por ahora',doneCopy:'Puedes dejarlo aquí. Tu secuencia está guardada en este dispositivo.',doneUnsaved:'Puedes dejarlo aquí. La secuencia sigue aquí mientras esta página permanezca abierta.',
       adultSpace:'ESPACIO DEL ACOMPAÑANTE',settings:'Ajustar la experiencia',settingsIntro:'Empieza con lo que hace con comodidad. Tú decides cuándo ofrecer más.',
@@ -27,7 +27,7 @@
       skip:'Go to my music',adult:'Companion',yourStudio:'YOUR LITTLE STUDIO',title:'Your music, at your pace.',subtitle:'Choose. Create. Listen.',
       choose:'Choose a sound',preview:'Listen to this sound',place:'Put it in a space',undo:'Undo',mySequence:'MY SEQUENCE',inOrder:'First one sound. Then another.',
       listen:'Listen to your music',howMany:'How many times?',once:'Once',twice:'Twice',untilStop:'Until I stop',play:'Listen',stop:'Stop',mute:'Mute',unmute:'Unmute',softSound:'Soft sound',silent:'No sound',
-      behindMusic:'BEHIND YOUR MUSIC',codeTitle:'Your sequence is a program.',saved:'Saved on this device.',notSaved:'Could not save here. Download a copy.',ownPace:'Take your time. You can change your mind.',
+      behindMusic:'BEHIND YOUR MUSIC',codeTitle:'Your sequence is a program.',saved:'Saved on this device.',notSaved:'Could not save here. Download a copy.',demo:'Demo: changes stay on this page only.',demoNote:'This demo starts empty and keeps changes only while the page is open. You can download a copy.',ownPace:'Take your time. You can change your mind.',
       iCanSay:'I can say:',pause:'Pause',help:'Help',done:'Finished',myChoice:'MY CHOICE',return:'Back to my music',nothingStarts:'The music stays silent.',
       pauseTitle:'I want a break',pauseCopy:'You can rest. Your music can wait.',helpTitle:'I need help',helpCopy:'You can show this screen to your companion.',doneTitle:'I am finished for now',doneCopy:'You can leave it here. Your sequence is saved on this device.',doneUnsaved:'You can leave it here. Your sequence stays here while this page remains open.',
       adultSpace:'COMPANION SPACE',settings:'Adjust the experience',settingsIntro:'Start with what feels comfortable. You decide when to offer more.',
@@ -45,8 +45,9 @@
     }
   };
   const STORAGE = 'mi-ritmo-v1';
+  const demo = new URLSearchParams(window.location.search).get('demo') === '1';
   let state = Core.defaults(), selected = null, history = [], muted = false, previewGeneration = 0, saved = true, currentStep = -1, messageType = null, previousFocus = null;
-  try { const raw = localStorage.getItem(STORAGE); if (raw) state = Core.normalize(JSON.parse(raw)); } catch (_) { saved = false; }
+  if (!demo) { try { const raw = localStorage.getItem(STORAGE); if (raw) state = Core.normalize(JSON.parse(raw)); } catch (_) { saved = false; } }
   const t = key => TEXT[state.settings.language][key] || key;
   const icon = (name, css = 'icon') => '<svg class="'+css+'" aria-hidden="true"><use href="#i-'+name+'"/></svg>';
   const engine = new window.MusicLoopsAudio.SoundEngine();
@@ -63,7 +64,7 @@
     stop(reason) { currentStep = -1; document.querySelectorAll('.step').forEach(button => { button.classList.remove('current'); button.removeAttribute('aria-current'); }); $('play').disabled = !Core.isReady(state); $('play-status').textContent = t(reason === 'complete' ? 'complete' : reason === 'limit' ? 'limit' : reason === 'interrupted' ? 'interrupted' : 'stopped'); },
     error() { $('play-status').textContent = t('audioError'); $('play').disabled = !Core.isReady(state); }
   });
-  function persist() { try { localStorage.setItem(STORAGE, JSON.stringify(state)); saved = true; } catch (_) { saved = false; } $('save-status').textContent = t(saved ? 'saved' : 'notSaved'); }
+  function persist() { if (demo) { saved = false; $('save-status').textContent = t('demo'); return; } try { localStorage.setItem(STORAGE, JSON.stringify(state)); saved = true; } catch (_) { saved = false; } $('save-status').textContent = t(saved ? 'saved' : 'notSaved'); }
   function snapshot() { history.push(JSON.parse(JSON.stringify(state))); if (history.length > 25) history.shift(); }
   function halt(reason) { ++previewGeneration; player.stop(reason); engine.silence(); }
   function refreshStatus() { $('play-status').textContent = Core.isReady(state) ? t('ready') : t(state.pattern.length === 2 ? 'fillTwo' : 'fillAll'); }
@@ -71,6 +72,7 @@
     const focused = document.activeElement && document.activeElement.dataset.focus;
     document.documentElement.lang = state.settings.language;
     document.querySelectorAll('[data-i18n]').forEach(element => { element.textContent = t(element.dataset.i18n); });
+    if (demo) document.querySelector('[data-i18n="localNote"]').textContent = t('demoNote');
     $('sound-palette').innerHTML = Core.palette(state.level).map(sound => '<button class="sound-button '+sound+'" data-sound="'+sound+'" data-focus="sound-'+sound+'" aria-pressed="'+(selected === sound)+'">'+icon(sound,'instrument')+'<span>'+t(sound)+'</span>'+icon('check','icon selection-check')+'</button>').join('');
     $('sequence').dataset.length = state.pattern.length;
     $('sequence').innerHTML = state.pattern.map((sound, index) => '<button class="step '+(sound ? 'filled '+sound : '')+'" data-step="'+index+'" data-focus="step-'+index+'" aria-label="'+t('step')+' '+(index+1)+': '+(sound ? t(sound) : t('empty'))+'"><span class="step-number">'+(index+1)+'</span>'+icon(sound || 'plus',sound ? 'instrument' : 'step-plus')+'<span class="step-name">'+t(sound || 'add')+'</span></button>').join('');

@@ -35,6 +35,8 @@ python -m http.server 8000
 
 Open `http://localhost:8000`. Local-file storage behavior varies by browser; use a local server or GitHub Pages for consistent saving. Download the repository to use it without an internet connection; this release does not install an offline service worker.
 
+For demonstrations or developer checks, add `?demo=1` to the URL. This starts a separate, empty, page-only session and does not read or overwrite the saved studio. JSON download is still available.
+
 ## GitHub Pages
 
 The app uses only relative paths. In **Settings → Pages**, select **Deploy from a branch → main → /(root)**. Save. No custom domain, backend, billing service, or secrets are required. GitHub serves the public files; sequence JSON stays in the current browser until its user downloads or shares it.
