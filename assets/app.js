@@ -11,10 +11,11 @@
       iCanSay:'Puedo decir:',pause:'Pausa',help:'Ayuda',done:'Terminé',myChoice:'MI ELECCIÓN',return:'Volver a mi música',nothingStarts:'La música sigue en silencio.',
       pauseTitle:'Quiero una pausa',pauseCopy:'Puedes descansar. Tu música te espera.',helpTitle:'Necesito ayuda',helpCopy:'Puedes mostrar esta pantalla a quien te acompaña.',doneTitle:'Terminé por ahora',doneCopy:'Puedes dejarlo aquí. Tu secuencia está guardada en este dispositivo.',doneUnsaved:'Puedes dejarlo aquí. La secuencia sigue aquí mientras esta página permanezca abierta.',
       adultSpace:'ESPACIO DEL ACOMPAÑANTE',settings:'Ajustar la experiencia',settingsIntro:'Empieza con lo que hace con comodidad. Tú decides cuándo ofrecer más.',
-      level:'Espacios y sonidos',levelFirst:'2 espacios · 2 sonidos',levelNext:'4 espacios · 3 sonidos',levelExplore:'8 espacios · 4 sonidos',levelNote:'Al ampliar se conserva la secuencia. Al reducir, los pasos que sobran se pueden recuperar con Deshacer.',
+      collection:'Material musical',soundsCollection:'Sonidos · piano y campana',cMajor:'Do mayor',aMinor:'La menor natural',collectionNote:'Una escala coloca sus ocho notas en orden, sin iniciar el sonido. Deshacer recupera tu secuencia anterior.',chooseNote:'Elige una nota',scaleTitle:'ESCALA EN IMÁGENES',scaleHint:'Ocho imágenes. Cada una tiene su propio sonido.',loadScale:'Escala completa',scaleReady:'Escala completa lista. Escucha cuando quieras.',note_c:'Do',note_d:'Re',note_e:'Mi',note_f:'Fa',note_g:'Sol',note_a:'La',note_b:'Si',high:'agudo',low:'grave',
+      level:'Espacios de la secuencia',levelFirst:'2 espacios',levelNext:'4 espacios',levelExplore:'8 espacios',levelNote:'Al ampliar se conserva la secuencia. Al reducir, los pasos que sobran se pueden recuperar con Deshacer.',
       language:'Idioma',tempo:'Velocidad',slow:'Lenta · 60',steady:'Tranquila · 72',walking:'Caminando · 90',volume:'Volumen',visualOnly:'Solo imágenes (sin sonido)',highlight:'Marcar el espacio que suena',
       
-      smallActivities:'Pequeñas actividades',activityOne:'Elige un sonido y ponlo en los dos espacios.',activityTwo:'Cambia el segundo sonido y escucha el orden.',activityThree:'Elige la flecha de repetir. Señala las dos filas de imágenes iguales.',
+      smallActivities:'Pequeñas actividades',activityOne:'Elige una imagen y colócala en un espacio.',activityTwo:'Coloca otra imagen y señala el orden.',activityThree:'Elige la flecha de repetir. Señala las dos filas de imágenes iguales.',
       example:'Poner un ejemplo',clear:'Vaciar espacios',keepMusic:'Conservar la música',localNote:'La secuencia y los ajustes se guardan en este navegador. Puedes descargar una copia sin nombres ni datos personales.',export:'Descargar secuencia',import:'Abrir secuencia',guide:'Guía de acompañamiento ↗',
       adultNote:'Las tarjetas muestran una elección en esta pantalla; no envían avisos. Acuerda su significado con ella y responde a su elección.',back:'Volver al estudio',close:'Cerrar',
       piano:'Piano',bell:'Campana',drum:'Tambor',rest:'Silencio',add:'Pon aquí',step:'Espacio',steps:'pasos',empty:'vacío',selectFirst:'Elige un sonido arriba.',
@@ -31,10 +32,11 @@
       iCanSay:'I can say:',pause:'Pause',help:'Help',done:'Finished',myChoice:'MY CHOICE',return:'Back to my music',nothingStarts:'The music stays silent.',
       pauseTitle:'I want a break',pauseCopy:'You can rest. Your music can wait.',helpTitle:'I need help',helpCopy:'You can show this screen to your companion.',doneTitle:'I am finished for now',doneCopy:'You can leave it here. Your sequence is saved on this device.',doneUnsaved:'You can leave it here. Your sequence stays here while this page remains open.',
       adultSpace:'COMPANION SPACE',settings:'Adjust the experience',settingsIntro:'Start with what feels comfortable. You decide when to offer more.',
-      level:'Spaces and sounds',levelFirst:'2 spaces · 2 sounds',levelNext:'4 spaces · 3 sounds',levelExplore:'8 spaces · 4 sounds',levelNote:'Adding spaces keeps the sequence. After reducing spaces, Undo can recover the removed steps.',
+      collection:'Music collection',soundsCollection:'Sounds · piano and bell',cMajor:'C major',aMinor:'A natural minor',collectionNote:'A scale places its eight notes in order without starting sound. Undo recovers your previous sequence.',chooseNote:'Choose a note',scaleTitle:'A SCALE IN PICTURES',scaleHint:'Eight pictures. Each one has its own sound.',loadScale:'Complete scale',scaleReady:'The complete scale is ready. Listen when you want.',note_c:'C',note_d:'D',note_e:'E',note_f:'F',note_g:'G',note_a:'A',note_b:'B',high:'high',low:'low',
+      level:'Sequence spaces',levelFirst:'2 spaces',levelNext:'4 spaces',levelExplore:'8 spaces',levelNote:'Adding spaces keeps the sequence. After reducing spaces, Undo can recover the removed steps.',
       language:'Language',tempo:'Speed',slow:'Slow · 60',steady:'Steady · 72',walking:'Walking · 90',volume:'Volume',visualOnly:'Pictures only (no sound)',highlight:'Mark the space that is playing',
       
-      smallActivities:'Small activities',activityOne:'Choose one sound and put it in both spaces.',activityTwo:'Change the second sound and listen to the order.',activityThree:'Choose the repeat arrow. Point to the two matching picture rows.',
+      smallActivities:'Small activities',activityOne:'Choose a picture and put it in a space.',activityTwo:'Place another picture and point to the order.',activityThree:'Choose the repeat arrow. Point to the two matching picture rows.',
       example:'Add an example',clear:'Empty the spaces',keepMusic:'Keep the music',localNote:'The sequence and settings are saved in this browser. Download a copy with no names or personal details.',export:'Download sequence',import:'Open sequence',guide:'Companion guide ↗',
       adultNote:'The cards show a choice on this screen; they do not send notifications. Agree on their meaning together and respond to her choice.',back:'Back to the studio',close:'Close',
       piano:'Piano',bell:'Bell',drum:'Drum',rest:'Rest',add:'Put it here',step:'Space',steps:'steps',empty:'empty',selectFirst:'Choose a sound above.',
@@ -44,12 +46,25 @@
       pictureOnce:'One row of pictures, played once.',pictureTwice:'The same pictures in two rows: the sequence repeats.',repeatLabel:'Repetitions',communicationLabel:'I can say',stepPlaying:'Playing now',mutedStatus:'Audio muted.',unmutedStatus:'Sound is available when you press Listen.'
     }
   };
-  const STORAGE = 'mi-ritmo-v1';
+  const STORAGE = 'mi-ritmo-v2';
+  const LEGACY_STORAGE = 'mi-ritmo-v1';
   const demo = new URLSearchParams(window.location.search).get('demo') === '1';
   let state = Core.defaults(), selected = null, history = [], muted = false, previewGeneration = 0, saved = true, currentStep = -1, messageType = null, previousFocus = null;
-  if (!demo) { try { const raw = localStorage.getItem(STORAGE); if (raw) state = Core.normalize(JSON.parse(raw)); } catch (_) { saved = false; } }
+  if (!demo) { try { const raw = localStorage.getItem(STORAGE) || localStorage.getItem(LEGACY_STORAGE); if (raw) state = Core.normalize(JSON.parse(raw)); } catch (_) { saved = false; } }
   const t = key => TEXT[state.settings.language][key] || key;
   const icon = (name, css = 'icon') => '<svg class="'+css+'" aria-hidden="true"><use href="#i-'+name+'"/></svg>';
+  function soundLabel(sound, full = false) {
+    const note = Core.noteInfo(sound);
+    if (!note) return t(sound || 'empty');
+    const label = t('note_'+note.letter);
+    return full ? label+' '+note.octave+(note.octave === 5 ? ', '+t('high') : note.octave === 3 ? ', '+t('low') : '') : label;
+  }
+  function picture(sound, css) {
+    const note = Core.noteInfo(sound);
+    if (!note) return icon(sound || 'plus',css);
+    const register = note.octave === 3 ? ' register-low' : note.octave === 5 ? ' register-high' : '';
+    return '<span class="note-image">'+icon('note-'+note.letter,css)+(register ? '<span class="register'+register+'" aria-hidden="true">'+icon('arrow')+'</span>' : '')+'</span>';
+  }
   const engine = new window.MusicLoopsAudio.SoundEngine();
   const player = new window.MusicLoopsAudio.Player(engine, {
     start() { $('play').disabled = true; $('play-status').textContent = t(state.settings.visualOnly || muted ? 'playingSilent' : 'playing'); },
@@ -74,11 +89,18 @@
     document.documentElement.lang = state.settings.language;
     document.querySelectorAll('[data-i18n]').forEach(element => { element.textContent = t(element.dataset.i18n); });
     if (demo) document.querySelector('[data-i18n="localNote"]').textContent = t('demoNote');
-    $('sound-palette').innerHTML = Core.palette(state.level).map(sound => '<button class="sound-button '+sound+'" data-sound="'+sound+'" data-focus="sound-'+sound+'" aria-pressed="'+(selected === sound)+'">'+icon(sound,'instrument')+'<span>'+t(sound)+'</span>'+icon('check','icon selection-check')+'</button>').join('');
+    const scale = Core.SCALES[state.collection];
+    $('sound-palette').classList.toggle('notes',Boolean(scale));
+    $('choose-heading').textContent = t(scale ? 'chooseNote' : 'choose');
+    $('sound-palette').innerHTML = Core.palette(state.level,state.collection).map(sound => '<button class="sound-button '+Core.cardClass(sound)+'" data-sound="'+sound+'" data-focus="sound-'+sound+'" aria-label="'+soundLabel(sound,true)+'" aria-pressed="'+(selected === sound)+'">'+picture(sound,'instrument')+'<span>'+soundLabel(sound)+'</span>'+icon('check','icon selection-check')+'</button>').join('');
     $('sequence').dataset.length = state.pattern.length;
-    $('sequence').innerHTML = state.pattern.map((sound, index) => '<button class="step '+(sound ? 'filled '+sound : '')+'" data-step="'+index+'" data-focus="step-'+index+'" aria-label="'+t('step')+' '+(index+1)+': '+(sound ? t(sound) : t('empty'))+'"><span class="step-number">'+(index+1)+'</span>'+icon(sound || 'plus',sound ? 'instrument' : 'step-plus')+'<span class="step-name">'+t(sound || 'add')+'</span></button>').join('');
+    $('sequence').innerHTML = state.pattern.map((sound, index) => '<button class="step '+(sound ? 'filled '+Core.cardClass(sound) : '')+'" data-step="'+index+'" data-focus="step-'+index+'" aria-label="'+t('step')+' '+(index+1)+': '+(sound ? soundLabel(sound,true) : t('empty'))+'"><span class="step-number">'+(index+1)+'</span>'+picture(sound,sound ? 'instrument' : 'step-plus')+'<span class="step-name">'+(sound ? soundLabel(sound) : t('add'))+'</span></button>').join('');
     $('filled-count').textContent = state.pattern.filter(Boolean).length+' / '+state.pattern.length;
     $('level-label').textContent = state.pattern.length+' '+t('steps');
+    $('scale-banner').hidden = !scale;
+    $('scale-name').textContent = scale ? t(scale.nameKey) : '';
+    $('setting-collection').value = state.collection;
+    $('example').textContent = t(scale ? 'loadScale' : 'example');
     $('preview-sound').disabled = !selected;
     $('undo').disabled = history.length === 0;
     $('play').disabled = !Core.isReady(state) || player.running;
@@ -86,8 +108,8 @@
     document.querySelector('.communication').setAttribute('aria-label',t('communicationLabel'));
     document.querySelectorAll('[data-loop]').forEach(button => button.setAttribute('aria-pressed',String(state.mode === button.dataset.loop)));
     const pictureRows = Core.pictureRows(state);
-    $('loop-preview').innerHTML = pictureRows.map((row, cycle) => '<div class="picture-run"><span class="picture-run-marker">'+(cycle === 0 ? icon('arrow') : icon('loop'))+'</span><div class="picture-notes" data-length="'+row.length+'">'+row.map((sound,step) => '<span class="picture-note '+(sound || 'empty')+'" data-cycle="'+(cycle+1)+'" data-step="'+step+'">'+icon(sound || 'plus','picture-instrument')+'</span>').join('')+'</div></div>').join('');
-    $('loop-preview').setAttribute('aria-label',t(state.mode === 'count' ? 'pictureTwice' : 'pictureOnce')+' '+state.pattern.map(sound => t(sound || 'empty')).join(', '));
+    $('loop-preview').innerHTML = pictureRows.map((row, cycle) => '<div class="picture-run"><span class="picture-run-marker">'+(cycle === 0 ? icon('arrow') : icon('loop'))+'</span><div class="picture-notes" data-length="'+row.length+'">'+row.map((sound,step) => '<span class="picture-note '+Core.cardClass(sound)+'" data-cycle="'+(cycle+1)+'" data-step="'+step+'">'+picture(sound,'picture-instrument')+'</span>').join('')+'</div></div>').join('');
+    $('loop-preview').setAttribute('aria-label',t(state.mode === 'count' ? 'pictureTwice' : 'pictureOnce')+' '+state.pattern.map(sound => soundLabel(sound,true)).join(', '));
     $('loop-preview').classList.toggle('repeated',state.mode === 'count');
     $('loop-explanation').textContent = t(state.mode === 'count' ? 'loopTwice' : 'loopOnce');
     $('stop').setAttribute('aria-label',t('stop'));
@@ -128,7 +150,7 @@
   $('play').addEventListener('click', () => { if (!Core.isReady(state) || player.running) return; ++previewGeneration; engine.silence(); $('play').disabled = true; player.start(JSON.parse(JSON.stringify(state))); });
   $('stop').addEventListener('click', () => halt('stopped'));
   $('mute').addEventListener('click', () => { halt(); muted = !muted; render(); $('play-status').textContent = t(muted ? 'mutedStatus' : 'unmutedStatus'); });
-  $('undo').addEventListener('click', () => { if (!history.length) return; halt(); state = history.pop(); if (!Core.palette(state.level).includes(selected)) selected = null; render(); $('play-status').textContent = t('undoDone'); });
+  $('undo').addEventListener('click', () => { if (!history.length) return; halt(); state = history.pop(); if (!Core.palette(state.level,state.collection).includes(selected)) selected = null; render(); $('play-status').textContent = t('undoDone'); });
   function showMessage(type) {
     halt('paused'); previousFocus = document.activeElement; messageType = type;
     $('message-symbol').innerHTML = icon(type === 'pause' ? 'pause' : type === 'help' ? 'help' : 'check');
@@ -144,17 +166,19 @@
   $('settings-close').addEventListener('click', () => $('settings-dialog').close());
   $('settings-finish').addEventListener('click', () => $('settings-dialog').close());
   $('settings-dialog').addEventListener('close', () => { halt(); $('settings-open').focus(); refreshStatus(); });
-  $('setting-level').addEventListener('change', event => change(() => { state = Core.resize(state,event.target.value); if (!Core.palette(state.level).includes(selected)) selected = null; }));
+  $('setting-collection').addEventListener('change', event => change(() => { state = Core.setCollection(state,event.target.value); selected = null; }));
+  $('setting-level').addEventListener('change', event => change(() => { state = Core.resize(state,event.target.value); if (!Core.palette(state.level,state.collection).includes(selected)) selected = null; }));
   $('setting-language').addEventListener('change', event => { halt(); state.settings.language = event.target.value; render(); });
   $('setting-tempo').addEventListener('change', event => { halt(); state.settings.tempo = Number(event.target.value); render(); });
   $('setting-volume').addEventListener('input', event => { state.settings.volume = Number(event.target.value); engine.setVolume(state.settings.volume, muted || state.settings.visualOnly); $('volume-output').textContent = state.settings.volume+'%'; persist(); });
   $('setting-volume').addEventListener('change', () => render());
   [['setting-visual','visualOnly'],['setting-highlight','highlight']].forEach(([id,key]) => $(id).addEventListener('change',event => { halt(); state.settings[key] = event.target.checked; render(); }));
-  $('example').addEventListener('click', () => change(() => { state.pattern = Array.from({length:state.pattern.length},(_,index) => index % 2 === 0 ? 'piano' : 'bell'); },'exampleDone'));
+  $('example').addEventListener('click', () => change(() => { state = Core.example(state); },'exampleDone'));
+  $('scale-load').addEventListener('click', () => change(() => { state = Core.example(state); },'scaleReady'));
   $('clear').addEventListener('click', () => change(() => { state.pattern = state.pattern.map(() => null); },'cleared'));
   $('export').addEventListener('click', () => {
     const blob = new Blob([JSON.stringify(state,null,2)],{type:'application/json'}), url = URL.createObjectURL(blob), link = document.createElement('a');
-    link.href = url; link.download = 'mi-ritmo.json'; document.body.append(link); link.click(); link.remove(); setTimeout(() => URL.revokeObjectURL(url),1000); $('file-status').textContent = t('exported');
+    link.href = url; link.download = 'mi-ritmo-v2.json'; document.body.append(link); link.click(); link.remove(); setTimeout(() => URL.revokeObjectURL(url),1000); $('file-status').textContent = t('exported');
   });
   $('import').addEventListener('change',async event => {
     const file = event.target.files[0]; if (!file) return;
@@ -162,7 +186,7 @@
     try {
       if (file.size > 51200) throw new Error('File too large');
       const raw = JSON.parse(await file.text());
-      if (raw.schemaVersion !== 1 || !Array.isArray(raw.pattern) || !Object.hasOwn(Core.LEVELS,raw.level)) throw new Error('Invalid file');
+      if (![1,2].includes(raw.schemaVersion) || !Array.isArray(raw.pattern) || !Object.hasOwn(Core.LEVELS,raw.level)) throw new Error('Invalid file');
       const next = Core.normalize(raw);
       // An imported project must never raise the listener's chosen volume.
       next.settings.volume = Math.min(state.settings.volume,next.settings.volume);

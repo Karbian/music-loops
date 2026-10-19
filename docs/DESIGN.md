@@ -28,3 +28,7 @@ Mi Ritmo applies the following design choices as a starting point for trying the
 These references inform implementation choices. They are not evidence that music prevents distress, or that a particular icon is understood by this learner. Confirm recognition, comfort, and choice-making with her and her support team.
 
 The learning representation is image-card sequencing, building on the familiar approach described by the teacher with mTiny. Reading or interpreting programming notation is not part of the learner activity.
+
+## Version 2.0 note cards
+
+C major and A natural minor are offered deliberately in the companion area. Selecting either scale silently places its eight ascending notes. Consistent shapes and colors identify pitches throughout both scales, with arrows distinguishing lower and higher octaves. Color is an additional cue. The two-picture instrument studio remains the starting point.

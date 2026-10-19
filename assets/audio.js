@@ -24,7 +24,7 @@
       }
     }
     note(sound, beatSeconds) {
-      if (!this.context || this.context.state !== 'running' || sound === 'rest' || this.muted) return;
+      if (!this.context || this.context.state !== 'running' || sound === 'rest' || this.muted || !root.MusicLoops.SOUNDS.includes(sound)) return;
       const ctx = this.context, now = ctx.currentTime;
       const gain = ctx.createGain();
       const duration = Math.min(beatSeconds * .78, .65);
@@ -33,7 +33,8 @@
       gain.gain.setValueAtTime(0, now);
       gain.gain.linearRampToValueAtTime(.42, now + .025);
       gain.gain.exponentialRampToValueAtTime(.001, now + duration);
-      const partials = sound === 'bell' ? [[523.25,.65],[1046.5,.12]] : sound === 'drum' ? [[146.83,.7],[220,.09]] : [[261.63,.65],[523.25,.13],[784.88,.045]];
+      const pitch = root.MusicLoops.frequencyFor(sound);
+      const partials = pitch ? [[pitch,.65],[pitch*2,.13],[pitch*3,.045]] : sound === 'bell' ? [[523.25,.65],[1046.5,.12]] : sound === 'drum' ? [[146.83,.7],[220,.09]] : [[261.63,.65],[523.25,.13],[784.88,.045]];
       partials.forEach(([frequency, amplitude]) => {
         const oscillator = ctx.createOscillator(), partial = ctx.createGain();
         oscillator.type = 'sine'; oscillator.frequency.value = frequency; partial.gain.value = amplitude;

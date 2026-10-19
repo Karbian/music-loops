@@ -1,8 +1,21 @@
-# Mi Ritmo · Music Loops
+# Mi Ritmo 2.0 · Music Loops
 
 A calm music studio for learning **sequences and loops with picture cards**. Choose an instrument picture, place its card in the sequence, and listen. Repeating shows **two identical rows of pictures**, making the loop visible.
 
-**[Open Mi Ritmo](https://karbian.github.io/music-loops/?v=1.1.0)** · [Companion guide](docs/ACCOMPANIMENT.md) · [Accessibility and design](docs/DESIGN.md)
+**[Open Mi Ritmo 2.0](https://karbian.github.io/music-loops/?v=2.0.0)** · [Companion guide](docs/ACCOMPANIMENT.md) · [Complete scales](docs/SCALES.md) · [Accessibility and design](docs/DESIGN.md)
+
+## Two complete scales
+
+In **Acompañante → Material musical**, choose **Do mayor** or **La menor natural**. In English, use **Companion → Music collection → C major / A natural minor**.
+
+| Scale | Eight notes, including the octave |
+| --- | --- |
+| C major | C4 · D4 · E4 · F4 · G4 · A4 · B4 · C5 |
+| A natural minor | A3 · B3 · C4 · D4 · E4 · F4 · G4 · A4 |
+
+Selecting a scale silently loads its complete eight-card sequence. Each pitch has a consistent picture, color, and real tuned piano-like sound. The same pitch keeps its picture in either scale. Arrows distinguish lower or upper octaves. Select **Listen**, edit individual cards, or repeat the complete scale twice with the matching picture rows. **Complete scale** restores all eight ascending notes after edits; it leaves sound stopped.
+
+The default remains the two-picture activity. A companion chooses when to introduce the scales. Existing version 1 saved projects and JSON files migrate to version 2. Version 2 saves separately, keeping the old browser project available as a migration source.
 
 ## Start with pictures
 
@@ -39,7 +52,7 @@ python -m http.server 8000
 
 Open `http://localhost:8000`. For GitHub Pages use **Settings → Pages → Deploy from a branch → main → /(root)**. All app paths are relative. Downloading the repository allows local use without an internet connection. Browser saving is more consistent on a local server or GitHub Pages than on file URLs.
 
-Add `?demo=1&v=1.1.0` to try an empty, page-only demonstration without reading or overwriting the saved studio. Change the version on asset URLs in `index.html` after future releases to refresh cached files.
+Add `?demo=1&v=2.0.0` to try an empty, page-only demonstration without reading or overwriting the saved studio. Change the version on asset URLs in `index.html` after future releases to refresh cached files.
 
 ## Verification
 
@@ -49,7 +62,7 @@ node --check assets/app.js
 node --check assets/audio.js
 ```
 
-Tests cover picture rows, sound order, finite repetition, old save migration, validation, stop cancellation, visual-only playback, and delayed tab interruption. [Verification notes](docs/QA.md) distinguish automated checks, browser checks, and remaining device checks.
+All 25 tests pass. They cover both scales' exact notes and intervals, octave tuning, actual synthesizer frequencies, picture rows, sound order, finite repetition, old save migration, JSON round trips, validation, stop cancellation, visual-only playback, and delayed tab interruption. [Verification notes](docs/QA.md) distinguish automated checks, browser checks, and remaining device checks.
 
 | File | Purpose |
 | --- | --- |

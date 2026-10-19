@@ -134,3 +134,110 @@ test('a delayed tab stops instead of catching up with a burst of sounds', async 
   assert.deepEqual(f.stops,['interrupted']);
   assert.equal(f.tasks.size,0);
 });
+
+test('C major contains all eight pitches from C4 to the octave C5', () => {
+  const notes=Core.SCALES['c-major'].notes;
+  assert.deepEqual(notes,['note-c4','note-d4','note-e4','note-f4','note-g4','note-a4','note-b4','note-c5']);
+  const midi=notes.map(n=>Core.noteInfo(n).midi);
+  assert.deepEqual(midi.slice(1).map((n,i)=>n-midi[i]),[2,2,1,2,2,2,1]);
+  assert.equal(midi.at(-1)-midi[0],12);
+});
+test('A natural minor contains all eight pitches from A3 to the octave A4', () => {
+  const notes=Core.SCALES['a-minor'].notes;
+  assert.deepEqual(notes,['note-a3','note-b3','note-c4','note-d4','note-e4','note-f4','note-g4','note-a4']);
+  const midi=notes.map(n=>Core.noteInfo(n).midi);
+  assert.deepEqual(midi.slice(1).map((n,i)=>n-midi[i]),[2,1,2,2,1,2,2]);
+  assert.equal(midi.at(-1)-midi[0],12);
+});
+test('scale notes have correctly tuned frequencies and exact octave ratios', () => {
+  assert.equal(Core.frequencyFor('note-a4'),440);
+  assert.equal(Core.frequencyFor('note-a3'),220);
+  assert.ok(Math.abs(Core.frequencyFor('note-c4')-261.6255653005986)<1e-9);
+  assert.equal(Core.frequencyFor('note-c5')/Core.frequencyFor('note-c4'),2);
+  assert.equal(Core.frequencyFor('untrusted-note'),null);
+});
+test('selecting either scale creates a ready eight-card sequence without changing the old project', () => {
+  const original=playable(), before=JSON.stringify(original);
+  for (const collection of Object.keys(Core.SCALES)) {
+    const state=Core.setCollection(original,collection);
+    assert.equal(state.collection,collection);
+    assert.equal(state.level,'explore');
+    assert.equal(state.mode,'once');
+    assert.equal(Core.isReady(state),true);
+    assert.deepEqual(state.pattern,Core.SCALES[collection].notes);
+    assert.deepEqual(Core.palette('first',collection),Core.SCALES[collection].notes);
+  }
+  assert.equal(JSON.stringify(original),before);
+});
+test('two-space scale activities retain the eight-note collection and can restore the complete scale', () => {
+  const full=Core.setCollection(playable(),'c-major'), short=Core.resize(full,'first');
+  assert.deepEqual(short.pattern,['note-c4','note-d4']);
+  assert.equal(Core.palette(short.level,short.collection).length,8);
+  assert.deepEqual(Core.example(short).pattern,full.pattern);
+  assert.equal(Core.example(short).mode,'once');
+});
+test('version 1 projects migrate to version 2 while preserving the sequence and settings', () => {
+  const old={schemaVersion:1,level:'first',pattern:['bell','piano'],mode:'count',settings:{language:'en',tempo:60,volume:11,visualOnly:true,highlight:false}};
+  const migrated=Core.normalize(old);
+  assert.equal(migrated.schemaVersion,2);
+  assert.equal(migrated.collection,'sounds');
+  assert.deepEqual(migrated.pattern,old.pattern);
+  assert.deepEqual(migrated.settings,old.settings);
+  assert.equal(migrated.mode,'count');
+});
+test('a version 2 scale survives JSON serialization with notes, pictures, and settings intact', () => {
+  const state=Core.setCollection(playable(),'a-minor');state.mode='count';
+  const restored=Core.normalize(JSON.parse(JSON.stringify(state)));
+  assert.deepEqual(restored,state);
+  assert.deepEqual(Core.pictureRows(restored),[state.pattern,state.pattern]);
+  for(const note of ['note-c4','note-d4','note-e4','note-f4','note-g4','note-a4']) {
+    assert.equal(Core.cardClass(note),'pitched tone-'+Core.noteInfo(note).letter);
+  }
+});
+test('a scale import rejects cards outside that collection and ignores arbitrary note text', () => {
+  const state=Core.normalize({...Core.setCollection(playable(),'c-major'),pattern:['note-b3','<img src=x>','note-c4','note-d4','note-e4','note-f4','note-g4','note-a4']});
+  assert.deepEqual(state.pattern.slice(0,3),[null,null,'note-c4']);
+  assert.equal(Core.isReady(state),false);
+  assert.deepEqual(Core.palette('explore','sounds'),['piano','bell','drum','rest']);
+});
+test('each complete scale plays every pitch once, or twice in the same order', async () => {
+  for(const collection of Object.keys(Core.SCALES)) {
+    for(const mode of ['once','count']) {
+      const f=fixture(), state=Core.setCollection(playable(),collection);state.mode=mode;
+      await f.player.start(state);f.advance(18000);
+      assert.deepEqual(f.notes,mode==='count'?[...state.pattern,...state.pattern]:state.pattern);
+      assert.deepEqual(f.stops,['complete']);
+      assert.equal(f.tasks.size,0);
+    }
+  }
+});
+test('Pause during a scale stops future notes and clears its active timers', async () => {
+  const f=fixture(), state=Core.setCollection(playable(),'c-major');
+  await f.player.start(state);f.advance(2000);f.player.stop('paused');
+  const heard=[...f.notes];f.advance(20000);
+  assert.deepEqual(heard,['note-c4','note-d4','note-e4']);
+  assert.deepEqual(f.notes,heard);
+  assert.equal(f.tasks.size,0);
+});
+test('the synthesizer sends each scale pitch to a distinct fundamental oscillator', async () => {
+  const oscillators=[];
+  const param=()=>({value:0,setValueAtTime(){},linearRampToValueAtTime(){},exponentialRampToValueAtTime(){},setTargetAtTime(){},cancelScheduledValues(){}});
+  class AudioContext {
+    constructor(){this.state='running';this.currentTime=0;this.destination={};}
+    createGain(){return {gain:param(),connect(){},disconnect(){}};}
+    createOscillator(){const node={frequency:param(),connect(){},disconnect(){},start(){},stop(){}};oscillators.push(node);return node;}
+  }
+  const window={MusicLoops:Core,AudioContext};
+  vm.runInNewContext(fs.readFileSync(path.join(__dirname,'../assets/audio.js'),'utf8'),{window});
+  const engine=new window.MusicLoopsAudio.SoundEngine();await engine.ready();
+  for(const collection of Object.keys(Core.SCALES)) {
+    for(const sound of Core.SCALES[collection].notes){
+      const offset=oscillators.length;engine.note(sound,1);
+      assert.equal(oscillators[offset].frequency.value,Core.frequencyFor(sound));
+      assert.equal(oscillators[offset+1].frequency.value,Core.frequencyFor(sound)*2);
+      assert.equal(oscillators[offset+2].frequency.value,Core.frequencyFor(sound)*3);
+    }
+  }
+  const count=oscillators.length;engine.setVolume(18,true);engine.note('note-c4',1);
+  assert.equal(oscillators.length,count);
+});

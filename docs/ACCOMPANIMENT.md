@@ -33,6 +33,16 @@ Conserva el mismo orden y los mismos sonidos para que el único cambio sea la re
 
 Ofrece cuatro espacios solo cuando dos resulten cómodos. Ocho espacios, tambor y silencio quedan disponibles para otra etapa elegida por el acompañante. La repetición siempre es finita: una o dos veces.
 
+## Escalas completas — versión 2.0
+
+En **Acompañante → Material musical**, puedes ofrecer **Do mayor** o **La menor natural**. Cada una coloca ocho imágenes en orden e incluye la nota final una octava más alta. La música empieza solo al tocar Escuchar.
+
+Cada nota tiene una imagen propia: sol, gota, hoja, estrella, flor, luna o corazón. Una flecha distingue la octava grave o aguda. La misma nota conserva su imagen al cambiar de escala. Puedes señalar las imágenes mientras suenan; no es necesario leer los nombres de las notas.
+
+El botón **Escala completa** repone las ocho notas después de hacer cambios. La flecha de repetir muestra la misma escala en dos filas. Deshacer recupera la secuencia anterior al cambiar de material. Para una exploración breve, reduce a dos espacios y usa dos notas; las ocho imágenes de la escala siguen disponibles.
+
+Consulta [las escalas y las imágenes](SCALES.md) para conocer los registros y la correspondencia. Los archivos y guardados de la primera versión se pueden recuperar en 2.0.
+
 ## Puedo elegir parar
 
 Acuerden el significado de las imágenes de **Pausa**, **Ayuda** y **Terminé** utilizando sus formas habituales de comunicación. Se pueden señalar o tocar. Un adulto debe poder ver y responder a la elección. Las tarjetas muestran un mensaje en esta pantalla; no envían alertas a otra persona.

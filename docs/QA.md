@@ -6,9 +6,15 @@ Run `node --test tests/*.test.cjs`. Tests cover state normalization, sequence or
 
 JavaScript syntax is checked with `node --check`. GitHub Actions runs these checks on pushes and pull requests.
 
-## Browser review
+## Version 2.0 checks
 
-The current 1.1.0 revision uses picture rows to represent a sequence played once or twice. The code view and open-ended repeat option from the initial prototype have been removed. Saved older projects are normalized into a finite repetition while preserving valid instrument cards.
+All 25 behavior tests pass, including both scales' full note sequences and interval patterns, correctly tuned frequencies, direct oscillator-frequency checks for every note, repeated eight-note playback, stopping within a scale, restoration of the complete scale, legacy migration, and schema 2 JSON round trips. JavaScript syntax and static interface references are checked separately.
+
+This revision has not received live browser visual or auditory review. Prior browser and transfer limitations are documented below. A human should check the real device volume and whether the new picture set is comfortable and understood.
+
+## Earlier browser review
+
+The earlier 1.1.0 revision uses picture rows to represent a sequence played once or twice. The code view and open-ended repeat option from the initial prototype have been removed. Saved older projects are normalized into a finite repetition while preserving valid instrument cards.
 
 The initial studio was reviewed in Chrome at 1470 × 683 and 390 × 844, including keyboard editing, sound playback, Pause / Help / Finished, English labels, and visual-only playback. Those checks predate the picture-row revision.
 
