@@ -286,6 +286,8 @@ class Studio:
         self.button(self.body, self.t("back"), self.return_to_studio).pack(anchor="w", pady=12)
 
     def halt(self, status="stopped"):
+        if self.closing:
+            return self.token
         self.cancel.set()  # Immediate and independent of a blocked audio request.
         self.token += 1
         self.started = self.take = None

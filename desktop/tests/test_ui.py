@@ -1,5 +1,6 @@
 """Tk smoke checks. Use xvfb-run on Linux; these use a fake audio backend."""
 from pathlib import Path
+import os
 import tempfile
 import threading
 import time
@@ -15,6 +16,9 @@ from desktop import model
 from desktop.session import AudacitySession
 from desktop.tests.fakes import FakeAudacity
 
+if os.environ.get("MI_RITMO_REQUIRE_TK") and tk is None:
+    raise RuntimeError("Tkinter is required for the CI interface checks.")
+
 
 @unittest.skipIf(tk is None, "Tkinter is not installed")
 class InterfaceTests(unittest.TestCase):
@@ -22,7 +26,11 @@ class InterfaceTests(unittest.TestCase):
         try:
             self.root = tk.Tk()
         except tk.TclError as exc:
+            if os.environ.get("MI_RITMO_REQUIRE_TK"):
+                raise
             self.skipTest("A display or xvfb-run is required: " + str(exc))
+        self.callback_errors = []
+        self.root.report_callback_exception = lambda *error: self.callback_errors.append(error)
         self.temp = tempfile.TemporaryDirectory()
         self.fake = FakeAudacity()
         self.session = AudacitySession(self.fake)
@@ -33,8 +41,11 @@ class InterfaceTests(unittest.TestCase):
         if hasattr(self, "app"):
             self.app.cancel.set()
             self.app.worker.submit(-1, "close", None, threading.Event())
+            for callback in self.root.tk.call("after", "info"):
+                self.root.after_cancel(callback)
             self.root.destroy()
             self.temp.cleanup()
+            self.assertEqual(self.callback_errors, [])
 
     def settle(self):
         deadline = time.monotonic() + 3
@@ -90,6 +101,12 @@ class InterfaceTests(unittest.TestCase):
         self.settle()
         self.assertIsNone(self.app.started)
         self.assertNotIn("Play:", self.fake.commands)
+        # Escape / communication clicks while closing must not orphan the queued close.
+        token = self.app.token
+        self.app.closing = True
+        self.assertEqual(self.app.halt(), token)
+        self.assertEqual(self.app.token, token)
+        self.app.closing = False
 
     def test_pictures_only_needs_no_connection_and_return_stays_silent(self):
         state = model.example(self.app.state)

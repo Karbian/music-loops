@@ -2,9 +2,11 @@
 
 ## Audacity desktop edition
 
-`python -m unittest desktop.tests.test_desktop -v` passes 24 unit/protocol checks. They include exact C-major and A-natural-minor pitches, octave tuning, eight/16-note takes, fade commands, bounded tone amplitude, real silent rests, append-only positioning, ownership refusal, missing-command refusal, cancellation at preparation and Play acknowledgement, invalidation after a timeout, legacy migration, bounded JSON import, and a browser/desktop scale-data comparison.
+`python -m unittest desktop.tests.test_desktop -v` passes 24 unit/protocol checks. They include exact C-major and A-natural-minor pitches, octave tuning, eight/16-note takes, fade commands, bounded tone amplitude, zero-amplitude rest commands, append-only positioning, ownership refusal, missing-command refusal, cancellation at preparation and Play acknowledgement, invalidation after a timeout, legacy migration, bounded JSON import, and a browser/desktop scale-data comparison.
 
 Five additional Tk checks in `desktop.tests.test_ui` cover picture placement, both complete scale layouts and restoration, cancellation by Help while generation is pending, pictures-only playback and silent return, English settings, and on-screen placement of persistent controls at 960 × 700. They require Tk and a display. The local build environment has Tk but no display; these tests are skipped locally. GitHub Actions runs them with Xvfb and runs the desktop unit tests on Windows, macOS, and Linux.
+
+GitHub Actions has passed all five Tk checks on its virtual display, the 24 desktop unit checks on all three operating systems, and the 25 existing browser logic checks. The interface job requires Tk rather than accepting skipped GUI tests. It uses a simulated Audacity backend throughout.
 
 Audacity itself is not installed in the local build environment. Protocol simulations and Tk checks are not live Audacity validation. **An installed Audacity 3.x session, actual output device/volume, Windows/macOS pipe behavior, manual audio save/export, and auditory comfort remain to be checked on the target computer.** The desktop's live picture border uses estimated time, not Audacity's audio clock. Canvas cards have keyboard bindings and focus borders; full screen-reader accessibility is not established.
 
