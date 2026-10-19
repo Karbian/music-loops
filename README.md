@@ -4,6 +4,8 @@ A small, calm music studio for learning **sequences** and **loops** through pict
 
 **[Open Mi Ritmo](https://karbian.github.io/music-loops/)** · [Companion guide](docs/ACCOMPANIMENT.md) · [Accessibility and design](docs/DESIGN.md)
 
+![Mi Ritmo with a two-step piano and bell sequence, the repeat-twice choice, and communication cards.](docs/preview.jpg)
+
 ## Start with two spaces
 
 1. Choose **Piano** or **Bell**. Choosing a sound is silent.
