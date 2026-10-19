@@ -1,49 +1,52 @@
-# Mi Ritmo — guía de acompañamiento
+# Mi Ritmo — acompañamiento con imágenes
 
-## Antes de empezar
+## Partir de lo que ya conoce
 
-Abre la experiencia junto a ella. Muéstrale la pantalla en silencio y deja que decida si quiere explorar. Empieza con **2 espacios y 2 sonidos**, sin el programa visible. La selección inicial se basa en habilidades observables; no asigna una edad de aprendizaje ni una categoría diagnóstica.
+Si ya construye secuencias y bucles con imágenes en mTiny, conserva esa forma de presentar la actividad: **señalar una imagen → colocar una tarjeta → observar o escuchar el resultado**. Mi Ritmo utiliza dibujos de instrumentos para representar sonidos. El mismo dibujo aparece al elegirlo, al colocarlo y al repetirlo.
 
-Acuerden qué significan **Pausa**, **Ayuda** y **Terminé** usando la forma de comunicación que ya conoce. Son tarjetas en pantalla: no llaman ni envían mensajes. Un adulto debe poder ver y responder a su elección. No es necesario que explique por qué quiere parar.
+Empieza con dos espacios y dos imágenes. Puedes señalar, modelar una acción y esperar a que ella elija, toque o indique qué hacer. Las palabras y los números son apoyos para quien acompaña; enséñale la acción con las imágenes.
 
-El volumen comienza en 18 de 40 dentro de la aplicación. Esto no mide el volumen físico del equipo: comprueba también el volumen del dispositivo antes de escuchar. Puedes seleccionar **Solo imágenes** para explorar sin audio. No presupongas que todos los sonidos o símbolos le resultan agradables o familiares.
+## Primera secuencia
 
-## Una primera exploración
+1. Señala la imagen del piano y tócala. Todavía no suena.
+2. Colócala en el primer espacio. Señala esa misma imagen en la secuencia.
+3. Haz lo mismo con la campana en el segundo espacio.
+4. Señala las dos imágenes en su orden. Cuando quiera escucharlas, toca el triángulo.
 
-1. Señala Piano. Al elegirlo no suena nada.
-2. Señala el espacio 1 y luego el espacio 2. Deja tiempo para que ella elija o señale; puede participar sin hablar.
-3. Explica qué hará Escuchar. Púlsalo cuando quiera escucharlo. Los sonidos aparecen en orden, uno después del otro.
-4. Usa Parar en cualquier momento. Pausa, Ayuda y Terminé también detienen el sonido.
+El borde sigue la imagen que está sonando. Puedes desactivar el borde o explorar **Solo imágenes** en Acompañante. No es necesario hablar, escribir o leer para colocar las tarjetas.
 
-No hay una duración obligatoria, una cuenta regresiva, un examen ni una recompensa por aguantar. Cerrar la tarjeta de pausa nunca reinicia la música.
+## Mostrar el bucle con las mismas imágenes
 
-## Tres actividades posibles
+Selecciona la opción con la flecha de repetir. Aparecen **dos filas iguales** dentro del recuadro:
 
-| Actividad | Acción | Qué observar sin puntuar |
+- Señala piano y campana en la primera fila.
+- Señala los mismos dibujos en la segunda fila: otra vez.
+- Escucha cuando ella quiera y sigue las tarjetas con el dedo.
+
+Conserva el mismo orden y los mismos sonidos para que el único cambio sea la repetición. Nombra “bucle” si le resulta útil; reconocer y construir la repetición con imágenes es el objetivo.
+
+| Exploración | Qué ofrecer | Qué observar sin puntuar |
 | --- | --- | --- |
-| Un sonido | Coloca Piano en los dos espacios y escucha una vez. | Si reconoce o elige un sonido y anticipa que tocar Escuchar lo reproduce. |
-| Primero y después | Coloca Piano y Campana. Cambia el segundo sonido. | Si distingue el orden con apoyo, señalando o escuchando. |
-| La misma música otra vez | Conserva la secuencia y elige Dos veces. | Si identifica que el mismo orden vuelve a empezar. Nombra “bucle” cuando le resulte útil. |
+| Un sonido | El mismo instrumento en ambos espacios. | Si elige una imagen y relaciona Escuchar con su sonido. |
+| Primero y después | Piano seguido de campana. | Si sigue el orden señalando, mirando o escuchando. |
+| Otra vez | Las mismas tarjetas en dos filas. | Si reconoce que la segunda fila repite la primera. |
 
-Repite una actividad si la elige. Ofrece cuatro espacios solo cuando dos resulten cómodos. En el nivel de ocho se puede explorar Tambor, Silencio y Hasta parar. Silencio ocupa un paso de la secuencia sin producir un sonido.
+Ofrece cuatro espacios solo cuando dos resulten cómodos. Ocho espacios, tambor y silencio quedan disponibles para otra etapa elegida por el acompañante. La repetición siempre es finita: una o dos veces.
 
-La repetición contada corresponde a `FOR turn FROM 1 TO 2`. Hasta parar corresponde a `WHILE play_is_on`; Parar cambia esa condición. Tiene un límite técnico de 60 segundos por reproducción. No es una exigencia de tiempo para la estudiante.
+## Puedo elegir parar
 
-## Ajustes y autonomía
+Acuerden el significado de las imágenes de **Pausa**, **Ayuda** y **Terminé** utilizando sus formas habituales de comunicación. Se pueden señalar o tocar. Un adulto debe poder ver y responder a la elección. Las tarjetas muestran un mensaje en esta pantalla; no envían alertas a otra persona.
 
-- Acompañante permite cambiar idioma, espacios, velocidad, volumen, sonido, resaltado y programa visible. Es un panel separado, no un bloqueo con contraseña.
-- Con el sonido apagado puede construir y seguir una secuencia visual. El resaltado es un borde sin destellos; se puede desactivar.
-- Si quiere cambiar un paso, elige otro sonido y toca ese espacio. Deshacer recupera hasta 25 cambios en la sesión actual, incluyendo reducciones de espacios.
-- Guardado automático conserva la secuencia y los ajustes en este navegador. Deshacer no se conserva tras recargar.
-- Descargar secuencia guarda un JSON. Abrir secuencia recupera ese archivo sin reproducir música ni elevar el volumen actual. No añadas nombres ni información sensible al archivo.
-- El botón de ayuda muestra una solicitud; no interpreta emociones, ni confirma que otra persona la haya visto. Mantén disponibles sus formas habituales de comunicación.
+Cualquiera de las tres detiene el sonido. Cerrar la tarjeta mantiene la música parada. No tiene que explicar por qué quiere detenerse. La actividad no tiene duración obligatoria, cuenta regresiva ni premio por continuar.
 
-## Acompañamiento
+## Ajustes prácticos
 
-Esta herramienta enseña estructuras de programación mediante música. No detecta ni predice crisis y no sustituye apoyos de comunicación o planes de acompañamiento existentes. Si ella muestra o comunica que no quiere continuar, detén la actividad y sigue los acuerdos de sus cuidadores y equipo de apoyo. No utilices la actividad para pedirle que demuestre que está tranquila.
+- Comprueba el volumen real del dispositivo antes de escuchar. El ajuste de la app no mide el volumen físico del altavoz.
+- Puedes empezar en silencio y presentar cada sonido cuando ella quiera. Comprueba que las imágenes y los sonidos sean reconocibles y aceptables para ella.
+- Para cambiar un paso, elige otra imagen y toca el espacio. Deshacer recupera los cambios recientes, incluyendo una reducción de espacios.
+- El guardado es local en este navegador. Descargar secuencia y Abrir secuencia permiten usar una copia JSON. No incluyas nombres ni información sensible.
+- La herramienta no detecta ni predice crisis. Si comunica que quiere parar, detén la actividad y sigue sus apoyos y acuerdos de acompañamiento existentes.
 
 ## English quick start
 
-Open **Companion → Language → English**. Choose a sound, put it in spaces 1 and 2, and press Listen when the learner wants to hear it. “Twice” repeats the same sequence. Pause, Help, and Finished display a choice and stop sound. They do not send alerts. Returning keeps music stopped.
-
-Start together, agree on the meaning of the cards, and choose complexity from observed comfort. There is no required session length, scoring, automatic level promotion, or clinical assessment.
+Use **Acompañante → Idioma → English**. Choose a picture, place it in a space, and point to each card in order. Press the triangle when the learner wants to listen. The repeat-arrow choice shows the same cards in two matching rows. Demonstrate the repeated row with pictures and actions. Pause, Help, and Finished stop sound and display a choice for a nearby companion.

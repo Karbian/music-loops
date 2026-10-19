@@ -65,7 +65,7 @@
       const token = ++this.generation;
       if (!root.MusicLoops.isReady(state)) return;
       const pattern = [...state.pattern], mode = state.mode, beat = 60000 / state.settings.tempo;
-      const count = mode === 'while' ? Infinity : pattern.length * (mode === 'count' ? 2 : 1);
+      const count = pattern.length * (mode === 'count' ? 2 : 1);
       try { if (!state.settings.visualOnly) await this.engine.ready(); }
       catch (error) { if (token === this.generation) this.callbacks.error(error); return; }
       if (token !== this.generation) return;

@@ -24,14 +24,14 @@ test('sequence order and counted loop preserve every sound and rest', () => {
 test('incomplete patterns do not generate playback events', () => {
   assert.deepEqual(Core.events({...Core.defaults(),pattern:['piano',null]}),[]);
 });
-test('import is bounded, discards unknown content, and restricts WHILE to eight spaces', () => {
+test('import is bounded, discards unknown content, and migrates older repeat settings', () => {
   const state = Core.normalize({schemaVersion:1,level:'first',pattern:['<script>','bell','drum'],mode:'while',settings:{volume:900,tempo:-10,language:'xx',showCode:'yes'}});
   assert.deepEqual(state.pattern,[null,'bell']);
   assert.equal(state.mode,'count');
   assert.equal(state.settings.volume,40);
   assert.equal(state.settings.tempo,60);
   assert.equal(state.settings.language,'es');
-  assert.equal(state.settings.showCode,false);
+  assert.equal(Object.hasOwn(state.settings,'showCode'),false);
   assert.throws(()=>Core.normalize({schemaVersion:99}));
   assert.throws(()=>Core.normalize(null));
 });
@@ -42,13 +42,15 @@ test('levels preserve available sounds and contain their sound vocabulary', () =
   const smaller = Core.resize({...bigger,pattern:['drum','bell','piano','rest','bell','piano','bell','piano']},'first');
   assert.deepEqual(smaller.pattern,[null,'bell']);
 });
-test('pseudocode shows sequence, FOR, WHILE, and rests distinctly', () => {
-  const names = {piano:'Piano',bell:'Bell'};
+test('picture rows show the same cards once or twice, preserving their order', () => {
   const state = {...Core.defaults(),pattern:['piano','bell']};
-  assert.equal(Core.pseudocode(state,names),'START\n  PLAY Piano\n  PLAY Bell\nEND');
-  assert.match(Core.pseudocode({...state,mode:'count'},names),/^FOR turn FROM 1 TO 2[\s\S]*END FOR$/);
-  assert.match(Core.pseudocode({...state,mode:'while'},names),/^WHILE play_is_on[\s\S]*END WHILE$/);
-  assert.match(Core.pseudocode({...state,pattern:['piano','rest']},names),/WAIT 1 beat/);
+  assert.deepEqual(Core.pictureRows(state),[['piano','bell']]);
+  const rows = Core.pictureRows({...state,mode:'count'});
+  assert.deepEqual(rows,[['piano','bell'],['piano','bell']]);
+  rows[0][0]='bell';
+  assert.deepEqual(rows[1],['piano','bell']);
+  assert.deepEqual(state.pattern,['piano','bell']);
+  assert.deepEqual(Core.pictureRows({...state,pattern:['piano',null]}),[['piano',null]]);
 });
 
 function fixture() {
@@ -110,11 +112,12 @@ test('pictures-only playback never requests audio', async () => {
   assert.deepEqual(f.notes,[]);
   assert.equal(f.steps.length,2);
 });
-test('WHILE stops automatically at the session cap', async () => {
-  const f=fixture(); await f.player.start({...playable(),mode:'while'}); f.advance(61000);
+test('older open-ended projects migrate to a finite loop and finish after two passes', async () => {
+  const f=fixture(); const state=Core.normalize({...playable(),mode:'while',level:'explore',pattern:Array(8).fill('piano')});
+  await f.player.start(state); f.advance(61000);
   assert.equal(f.player.running,false);
-  assert.deepEqual(f.stops,['limit']);
-  assert.equal(f.notes.length,60);
+  assert.deepEqual(f.stops,['complete']);
+  assert.equal(f.notes.length,16);
   assert.equal(f.tasks.size,0);
 });
 test('audio failure reports an error without starting a timer', async () => {
@@ -125,7 +128,7 @@ test('audio failure reports an error without starting a timer', async () => {
   assert.equal(f.tasks.size,0);
 });
 test('a delayed tab stops instead of catching up with a burst of sounds', async () => {
-  const f=fixture(); await f.player.start({...playable(),mode:'while'});
+  const f=fixture(); await f.player.start({...playable(),mode:'count'});
   f.jump(5000); f.flushLate();
   assert.deepEqual(f.notes,['piano']);
   assert.deepEqual(f.stops,['interrupted']);
